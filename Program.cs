@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Blog.Data;
 using Blog.Models;
@@ -141,10 +142,25 @@ namespace Blog
             // };
             // context.Posts.Add(post);
             // context.SaveChanges();
+           
+           // Paginação
+           //var posts = GetPosts(context, 0, 25);
 
+           var posts = context.PostWithTagsCounts.ToList();
 
-            
+        }
 
+        // Paginação
+        public static List<Post> GetPosts(BlogDataContext context, int skip = 0, int take = 25)
+        {
+            var posts = context
+                .Posts
+                .AsNoTracking()
+                .Skip(skip)
+                .Take(take)
+                .ToList();
+
+            return posts;
         }
     }
 }
